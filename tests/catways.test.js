@@ -2,12 +2,33 @@ const request = require("supertest");
 const app = require("../app");
 
 let catwayId;
+let token;
 
 // Regroupe les tests des routes des catways
 describe("Tests des catways", () => {
+  // Crée un utilisateur et récupère son token avant les tests
+  before(async () => {
+    const utilisateur = {
+      name: "Test Catway",
+      email: `catway${Date.now()}@example.com`,
+      password: "123456",
+    };
+
+    await request(app).post("/auth/register").send(utilisateur);
+
+    const response = await request(app).post("/auth/login").send({
+      email: utilisateur.email,
+      password: utilisateur.password,
+    });
+
+    token = response.body.token;
+  });
+
   // Vérifie que la liste des catways est bien retournée
   it("GET /catways doit retourner la liste des catways", async () => {
-    const response = await request(app).get("/catways");
+    const response = await request(app)
+      .get("/catways")
+      .set("Authorization", `Bearer ${token}`);
 
     if (response.status !== 200) {
       throw new Error("La route /catways ne répond pas correctement");
@@ -20,9 +41,9 @@ describe("Tests des catways", () => {
 
   // Vérifie qu'un catway inexistant renvoie une erreur 404
   it("GET /catways/:id doit retourner 404 si le catway est introuvable", async () => {
-    const response = await request(app).get(
-      "/catways/000000000000000000000000",
-    );
+    const response = await request(app)
+      .get("/catways/000000000000000000000000")
+      .set("Authorization", `Bearer ${token}`);
 
     if (response.status !== 404) {
       throw new Error("Le statut attendu est 404");
@@ -37,7 +58,10 @@ describe("Tests des catways", () => {
       catwayState: "Bon état",
     };
 
-    const response = await request(app).post("/catways").send(nouveauCatway);
+    const response = await request(app)
+      .post("/catways")
+      .set("Authorization", `Bearer ${token}`)
+      .send(nouveauCatway);
 
     if (response.status !== 201) {
       throw new Error("Le catway n'a pas été créé");
@@ -49,7 +73,9 @@ describe("Tests des catways", () => {
 
   // Vérifie qu'un catway existant peut être récupéré par son identifiant
   it("GET /catways/:id doit retourner un catway existant", async () => {
-    const response = await request(app).get(`/catways/${catwayId}`);
+    const response = await request(app)
+      .get(`/catways/${catwayId}`)
+      .set("Authorization", `Bearer ${token}`);
 
     if (response.status !== 200) {
       throw new Error("Le catway n'a pas été trouvé");
@@ -70,6 +96,7 @@ describe("Tests des catways", () => {
 
     const response = await request(app)
       .put(`/catways/${catwayId}`)
+      .set("Authorization", `Bearer ${token}`)
       .send(catwayModifie);
 
     if (response.status !== 200) {
@@ -85,7 +112,10 @@ describe("Tests des catways", () => {
   it("PATCH /catways/:id doit modifier uniquement le champ transmis", async () => {
     const response = await request(app)
       .patch(`/catways/${catwayId}`)
-      .send({ catwayState: "Bon état après modification" });
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        catwayState: "Bon état après modification",
+      });
 
     if (response.status !== 200) {
       throw new Error(
@@ -100,14 +130,18 @@ describe("Tests des catways", () => {
 
   // Vérifie la suppression d'un catway
   it("DELETE /catways/:id doit supprimer un catway existant", async () => {
-    const response = await request(app).delete(`/catways/${catwayId}`);
+    const response = await request(app)
+      .delete(`/catways/${catwayId}`)
+      .set("Authorization", `Bearer ${token}`);
 
     if (response.status !== 200) {
       throw new Error("Le catway n'a pas été supprimé");
     }
 
     // Vérifie que le catway supprimé n'est plus accessible
-    const verification = await request(app).get(`/catways/${catwayId}`);
+    const verification = await request(app)
+      .get(`/catways/${catwayId}`)
+      .set("Authorization", `Bearer ${token}`);
 
     if (verification.status !== 404) {
       throw new Error("Le catway existe encore après sa suppression");

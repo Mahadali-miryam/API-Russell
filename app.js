@@ -4,16 +4,19 @@ require("dotenv").config();
 
 const app = express();
 
-// Importation des routes liées aux catways et aux réservations
+// Importation des routes liées aux catways et aux réservations et à l'authentification
 const catwaysRouter = require("./routes/catways");
 const reservationsRouter = require("./routes/reservations");
+const authRouter = require("./routes/auth");
+const authMiddleware = require("./middleware/auth");
 
 // Permet à Express de comprendre les données envoyées au format JSON
 app.use(express.json());
 
-// Associe les routes des catways et des réservations à l'URL /catways
-app.use("/catways", catwaysRouter);
-app.use("/catways", reservationsRouter);
+// Association des routes à leurs URL respectives
+app.use("/catways", authMiddleware, catwaysRouter);
+app.use("/catways", authMiddleware, reservationsRouter);
+app.use("/auth", authRouter);
 
 // Connexion à la base de données MongoDB grâce à l'URL stockée dans le fichier .env
 mongoose
