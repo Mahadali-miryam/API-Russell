@@ -2,20 +2,20 @@ const mongoose = require("mongoose");
 
 // Définition du schéma qui décrit la structure d'un catway dans MongoDB
 const catwaySchema = mongoose.Schema({
-// Numéro du catway : obligatoire et unique
+  // Numéro du catway : obligatoire et unique
   catwayNumber: {
     type: Number,
     required: true,
     unique: true,
   },
 
-// Type de catway : obligatoire
-  catwayType: {
+  // Type de catway : obligatoire
+  type: {
     type: String,
     required: true,
   },
 
-// État du catway : obligatoire
+  // État du catway : obligatoire
   catwayState: {
     type: String,
     required: true,

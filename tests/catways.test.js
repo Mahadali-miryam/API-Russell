@@ -54,7 +54,7 @@ describe("Tests des catways", () => {
   it("POST /catways doit créer un nouveau catway", async () => {
     const nouveauCatway = {
       catwayNumber: Date.now(),
-      catwayType: "long",
+      type: "long",
       catwayState: "Bon état",
     };
 
@@ -90,7 +90,7 @@ describe("Tests des catways", () => {
   it("PUT /catways/:id doit modifier un catway existant", async () => {
     const catwayModifie = {
       catwayNumber: Date.now(),
-      catwayType: "long",
+      type: "long",
       catwayState: "État modifié",
     };
 
