@@ -36,8 +36,33 @@ const login = async (email, password) => {
   return { token };
 };
 
+// Modifier un utilisateur
+const updateUser = async (id, data) => {
+  const user = {};
+
+  if (data.name) user.name = data.name;
+  if (data.email) user.email = data.email;
+
+  if (data.password) {
+    user.password = await bcrypt.hash(data.password, 10);
+  }
+
+  return await User.findByIdAndUpdate(id, user, {
+    new: true,
+    runValidators: true,
+  }).select("-password");
+};
+
+// Supprimer un utilisateur
+const deleteUser = async (id) => {
+  return await User.findByIdAndDelete(id);
+};
+
 // Exportation des fonctions
+
 module.exports = {
   register,
   login,
+  updateUser,
+  deleteUser,
 };
