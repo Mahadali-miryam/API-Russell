@@ -34,6 +34,7 @@ router.post("/login", async (req, res) => {
 
 // Modifier un utilisateur (route protégée)
 router.put("/users/:id", authMiddleware, async (req, res) => {
+  console.log("Demande de modification reçue :", req.params.id);
   try {
     const user = await authService.updateUser(req.params.id, req.body);
 

@@ -12,6 +12,7 @@ const authMiddleware = require("./middleware/auth");
 
 // Permet à Express de comprendre les données envoyées au format JSON
 app.use(express.json());
+app.use(express.static("public"));
 
 // Association des routes à leurs URL respectives
 app.use("/catways", authMiddleware, catwaysRouter);
