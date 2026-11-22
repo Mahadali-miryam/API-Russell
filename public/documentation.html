@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - API Russell</title>
+</head>
+<body>
+
+    <h1>Documentation de l'API Russell</h1>
+
+    <p>
+        Cette documentation présente l'API Russell, une application permettant
+        de gérer les catways et les réservations d'un port de plaisance.
+    </p>
+
+    <p><a href="index.html">Retour à la page de connexion</a></p>
+
+    <h2>1. Overview - Présentation</h2>
+
+    <p>
+        L'API Russell permet de gérer les catways d'un port de plaisance
+        ainsi que les réservations associées.
+    </p>
+
+    <p>Les principales fonctionnalités sont :</p>
+    <ul>
+        <li>Consulter la liste des catways.</li>
+        <li>Consulter les informations d'un catway.</li>
+        <li>Ajouter, modifier et supprimer un catway.</li>
+        <li>Consulter les réservations d'un catway.</li>
+        <li>Créer et supprimer une réservation.</li>
+        <li>Authentifier les utilisateurs.</li>
+    </ul>
+
+    <h2>2. Tutorial - Utilisation</h2>
+
+    <p>
+        Pour utiliser l'API, l'utilisateur doit d'abord se connecter
+        avec une adresse e-mail et un mot de passe.
+    </p>
+
+    <ol>
+        <li>Ouvrir la page d'accueil de l'application.</li>
+        <li>Saisir ses identifiants dans le formulaire de connexion.</li>
+        <li>Se connecter pour accéder au tableau de bord.</li>
+        <li>Choisir la gestion des catways ou des réservations.</li>
+    </ol>
+
+    <p>
+        Les routes protégées nécessitent un jeton d'authentification
+        JWT transmis dans l'en-tête Authorization.
+    </p>
+
+    <h2>3. Examples - Exemples</h2>
+
+    <h3>Gestion des catways</h3>
+
+    <ul>
+        <li><strong>GET /catways</strong> : consulter tous les catways.</li>
+        <li><strong>GET /catways/:id</strong> : consulter un catway.</li>
+        <li><strong>POST /catways</strong> : ajouter un catway.</li>
+        <li><strong>PUT /catways/:id</strong> : remplacer les informations d'un catway.</li>
+        <li><strong>PATCH /catways/:id</strong> : modifier certaines informations d'un catway.</li>
+        <li><strong>DELETE /catways/:id</strong> : supprimer un catway.</li>
+    </ul>
+
+    <h3>Gestion des réservations</h3>
+
+    <ul>
+        <li><strong>GET /catways/:catwayNumber/reservations</strong> : consulter les réservations d'un catway.</li>
+        <li><strong>GET /catways/:catwayNumber/reservations/:id</strong> : consulter une réservation.</li>
+        <li><strong>POST /catways/:catwayNumber/reservations</strong> : créer une réservation.</li>
+        <li><strong>DELETE /catways/:catwayNumber/reservations/:id</strong> : supprimer une réservation.</li>
+    </ul>
+
+    <h3>Exemple de création d'une réservation</h3>
+
+    <pre>
+{
+    "catwayNumber": 1,
+    "clientName": "Thomas Martin",
+    "boatName": "Carolina",
+    "checkIn": "2026-12-01",
+    "checkOut": "2026-12-05"
+}
+    </pre>
+
+    <h2>4. Glossary - Glossaire</h2>
+
+    <ul>
+        <li><strong>API :</strong> interface permettant à des applications de communiquer entre elles.</li>
+        <li><strong>Catway :</strong> emplacement d'amarrage pour un bateau.</li>
+        <li><strong>CRUD :</strong> opérations de création, lecture, modification et suppression.</li>
+        <li><strong>HTTP :</strong> protocole utilisé pour les échanges entre le client et le serveur.</li>
+        <li><strong>JWT :</strong> jeton utilisé pour authentifier un utilisateur.</li>
+        <li><strong>MongoDB :</strong> système de gestion de base de données NoSQL.</li>
+        <li><strong>Route :</strong> adresse permettant d'accéder à une fonctionnalité de l'API.</li>
+    </ul>
+
+    <p><a href="index.html">Retour à l'accueil</a></p>
+
+</body>
+</html>
